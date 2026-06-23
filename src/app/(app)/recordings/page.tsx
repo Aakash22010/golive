@@ -17,7 +17,7 @@ function fmtDuration(secs: number | null) {
 }
 
 export default async function RecordingsPage() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data } = await supabase
     .from("recordings")
     .select("id, room_name, status, duration_secs, created_at")

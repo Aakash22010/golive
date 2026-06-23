@@ -6,14 +6,16 @@ import { createAdminClient } from "@/lib/supabase/admin";
 export default async function RecordingPlayerPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = await params;
+
   // RLS-protected read: confirms the user may see this recording's metadata.
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: rec } = await supabase
     .from("recordings")
     .select("id, room_name, storage_key, status, created_at")
-    .eq("id", params.id)
+    .eq("id", id)
     .single();
 
   if (!rec) notFound();

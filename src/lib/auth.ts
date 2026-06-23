@@ -15,7 +15,7 @@ export interface Profile {
  * trust getSession() alone for authorization.
  */
 export async function getProfile(): Promise<Profile | null> {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();

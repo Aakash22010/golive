@@ -7,15 +7,17 @@ import VideoRoom from "./VideoRoom";
 export default async function RoomPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const supabase = createClient();
+  const { slug } = await params;
+
+  const supabase = await createClient();
   const profile = await getProfile();
 
   const { data: room } = await supabase
     .from("rooms")
     .select("id, name, slug")
-    .eq("slug", params.slug)
+    .eq("slug", slug)
     .single();
 
   if (!room) notFound();

@@ -33,7 +33,7 @@ Why these choices, briefly: a hand-rolled WebRTC stack needs a signaling server 
 
 ## Prerequisites
 
-- Node.js 18.18+ (or 20+) and npm
+- Node.js 20.9+ (Next.js 16 dropped Node 18 support) and npm
 - A free **Supabase** project — https://supabase.com
 - A free **LiveKit Cloud** project (the "Build" tier needs no card) — https://cloud.livekit.io
 
@@ -134,6 +134,8 @@ Before you trust it in production, also do:
 ---
 
 ## Notes on versions
+
+This targets **Next.js 16 / React 19**. Two Next 16 conventions matter if you edit the code: dynamic route `params` are a `Promise` (await them), and `cookies()` from `next/headers` is async (the server Supabase client is therefore async — `await createClient()`). The `middleware.ts` lives in `src/` because this project uses a `src/` directory; at the project root it would silently never run.
 
 The **Egress S3 output** in `src/lib/livekit.ts` is the most version-sensitive code. If `npm install` pulls a `livekit-server-sdk` whose API differs, check the current Egress docs: https://docs.livekit.io/home/egress/ . Everything else is stable across recent versions.
 
